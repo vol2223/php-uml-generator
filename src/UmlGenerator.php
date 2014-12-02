@@ -13,17 +13,10 @@ class UmlGenerator
 	private $umlTemplate;
 
 	/**
-	 * @param \UmlGenerator\UmlTemplate
-	 */
-	public function __construct(UmlTemplate $umlTemplate)
-	{
-		$this->umlTemplate = $umlTemplate;
-	}
-
-	/**
 	 * execute uml generate
 	 *
 	 * @param string[] $entryPointClassNames
+	 * @return \UmlGenerator\UmlTemplate[]
 	 */
 	public function generate($entryPointClassNames)
 	{
@@ -46,8 +39,11 @@ class UmlGenerator
 				);
 			}
 
-			$this->umlTemplate->write(str_replace('\\', '', $entryPointClassName), $umlDependencyObjectList);
+			$template = new UmlTemplate(str_replace('\\', '', $entryPointClassName), $umlDependencyObjectList);
+			$template->build();
+			$templateList[] = $template;
 		}
 
+		return isset($templateList) ? $templateList : [];
 	}
 }

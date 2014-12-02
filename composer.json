@@ -16,5 +16,9 @@
     "require-dev": {
         "phpunit/phpunit": "~3.7",
         "emonkak/dependency-graph": "dev-master"
-    }
+    },
+    "bin": [
+      "bin/umlGenerater",
+      "bin/plantuml.jar"
+    ]
 }

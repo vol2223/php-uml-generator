@@ -11,6 +11,11 @@ class UmlTemplate
 	private $dotFileName;
 
 	/**
+	 * @var \UmlGenerator\UmlDependencyObject[] $umlDependencyObjectList
+	 */
+	private $umlDependencyObjectList;
+
+	/**
 	 * @var string
 	 */
 	private $template;
@@ -31,18 +36,24 @@ class UmlTemplate
 	private $writedClassNames = [];
 
 	/**
-	 * template write
-	 *
 	 * @param string $dotFileName
 	 * @param \UmlGenerator\UmlDependencyObject[] $umlDependencyObjectList
 	 */
-	public function write($dotFileName, $umlDependencyObjectList)
+	public function __construct($dotFileName, $umlDependencyObjectList)
 	{
-		$this->dotFileName = str_replace('\\', '', $dotFileName);
+		$this->dotFileName = $dotFileName;
+		$this->umlDependencyObjectList = $umlDependencyObjectList;
+	}
+
+	/**
+	 * template build
+	 */
+	public function build()
+	{
 		$this->init();
 		$this->titleWrite();
 		
-		foreach ($umlDependencyObjectList as $umlDependencyObject) {
+		foreach ($this->umlDependencyObjectList as $umlDependencyObject) {
 			$this->entryPointclassWrite($umlDependencyObject);
 			$this->classWrite($umlDependencyObject);
 			$this->dependencyGraphWrite($umlDependencyObject);
@@ -50,9 +61,28 @@ class UmlTemplate
 
 		$this->template .= $this->classTemplate . $this->dependencyGraphTemplate;
 		$this->end();
-		var_dump($this->template);exit;
+		$this->template;
 	}
-	
+
+	/**
+	 * template getter
+	 *
+	 * @return string
+	 */
+	public function getTemplate()
+	{
+		return $this->template;
+	}
+
+	/**
+	 * file name getter
+	 *
+	 * @return string
+	 */
+	public function getFileName()
+	{
+		return $this->dotFileName;
+	}
 
 	/**
 	 * init
