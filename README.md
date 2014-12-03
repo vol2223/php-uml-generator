@@ -10,8 +10,5 @@ php-uml-generator
 
 ### How to use
 
-    $ ./bin/umlGenerater Controller\\HogeController Controller\\PiyoController
-    $ ls ./uml
-    ControllerHogeController.dot ControllerPiyoController.dot
-    $ java -jar ./bin/plantuml.jar ControllerHogeController.dot
-    $ java -jar ./bin/plantuml.jar ControllerPiyoController.dot
+created by extends the command  
+Please look at the example

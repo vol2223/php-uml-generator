@@ -8,9 +8,22 @@ class UmlGenerator
 {
 
 	/**
+	 * @var DependencyGraph\DependencyResolver;
+	 */
+	private $dependencyResolver;
+
+	/**
 	 * @var \UmlGenerator\UmlTemplate
 	 */
 	private $umlTemplate;
+
+	/**
+	 * @param DependencyGraph\DependencyResolver;
+	 */
+	public function __construct(DependencyResolver $dependencyResolver)
+	{
+		$this->dependencyResolver = $dependencyResolver;
+	}
 
 	/**
 	 * execute uml generate
@@ -20,10 +33,10 @@ class UmlGenerator
 	 */
 	public function generate($entryPointClassNames)
 	{
-		$dependencyResolver = new DependencyResolver();
+		$entryPointClassNames = is_array($entryPointClassNames) ? $entryPointClassNames : [$entryPointClassNames];
 		foreach ($entryPointClassNames as $entryPointClassName) {
 			$umlDependencyObjectList = [];
-			$dependencyGraph = $dependencyResolver->execute([$entryPointClassName]);
+			$dependencyGraph = $this->dependencyResolver->execute([$entryPointClassName]);
 			foreach ($dependencyGraph->getAllObjects() as $object) {
 				if ($object->getValue()->isDynamic()) {
 					continue;
